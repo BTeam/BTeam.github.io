@@ -1,6 +1,6 @@
 ### 我的博客
 
-地址：[http://yansu.org](http://yansu.org)
+地址：[http://BTeam.github.io](http://BTeam.github.io)
 
 ### 安装说明
 
@@ -11,8 +11,7 @@
 5. 修改`_config.yml`配置项
 6. It's done!
 
-### 分支说明
+### 特别感谢
 
-- 三栏布局（master分支）
-- 单栏布局（first-ui分支）
+本博客框架来自 [闫肃]（http://yansu.org）
 
