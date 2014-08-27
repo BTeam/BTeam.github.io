@@ -18,7 +18,7 @@ rss_url: /pages/atom.xml
 
 # gavatar头像及Favicon
 gavatar: /public/upload/avatar_160_160.png
-#favicon: http://yansu-uploads.stor.sinaapp.com/imgs/favicon.ico
+favicon: /public/upload/avatar_160_160.png
 
 # google analytics 设置
 #ga:
@@ -26,8 +26,8 @@ gavatar: /public/upload/avatar_160_160.png
 #  url: yansu.org
 
 # disqus 设置
-#disqus:
-#  shortname: suyan-zh
+disqus:
+  shortname: shun
 
 # 主题设置，自动激活某个标签
 active: 技术
