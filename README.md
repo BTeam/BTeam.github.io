@@ -13,5 +13,5 @@
 
 ### 特别感谢
 
-aaab本博客框架来自 [闫肃]（http://yansu.org）
+aaabc本博客框架来自 [闫肃]（http://yansu.org）
 
