@@ -30,7 +30,7 @@ gavatar: /public/upload/avatar_160_160.png
 #  shortname: suyan-zh
 
 # 主题设置，自动激活某个标签
-active: 关于
+active: 技术
 
 # 首页除了最新文章外显示分类
 cates: 

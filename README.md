@@ -11,7 +11,7 @@
 5. 修改`_config.yml`配置项
 6. It's done!
 
-### 特别感谢
+### 鸣谢
 
-aaabc本博客框架来自 [闫肃]（http://yansu.org）
+本博客框架来自 [闫肃]（http://yansu.org）
 
