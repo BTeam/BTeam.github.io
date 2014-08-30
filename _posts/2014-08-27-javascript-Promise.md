@@ -8,7 +8,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 ### Javascript中的异步函数
 
-![忙碌的Javascript引擎](/public/upload/zuma.png)
+![忙碌的Javascript引擎](public/upload/zuma.png)
 
 这幅画面想必大家都很熟悉。每天为我们服务的Javascript引擎在浏览器里就扮演图中央这只苦逼青蛙的角色————比青蛙更苦逼的是：JS引擎每次只处理排在最前面的一个珠子。
 
