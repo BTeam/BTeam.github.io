@@ -48,14 +48,15 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 如果代码规模比较小当然OK，但在大规模的业务代码面前，这两种方式都有自己的问题。
 回调函数：
+
 1. 意大利通心粉级的超凡阅读体验：
 
-    asyncA(function (){
-		asyncB(function(){
-			asyncC(function(){
+	    asyncA(function (){
+			asyncB(function(){
+				asyncC(function(){
+				})
 			})
 		})
-	})
 	
 想象一下当嵌套深度达到5层或者10层时，回调函数体又代码巨多时的代码可读性。。。
 
