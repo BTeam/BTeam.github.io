@@ -149,7 +149,7 @@ OK,这下终于不用为嵌套调用异步函数时的错误处理发愁了！
 	}).then(function(data){
 		//不返回Promise对象的话，then仍将返回一个完成状态的Promise对象
 	}).then(...)
-	.catch(...)
+	.catch(...);
 
 ### 用Promise模式来简化Javascript异步编程
 
