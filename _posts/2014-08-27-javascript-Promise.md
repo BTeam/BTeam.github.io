@@ -192,4 +192,4 @@ OK,这下终于不用为嵌套调用异步函数时的错误处理发愁了！
 
 ![使用promise的情况](/public/upload/promise_case.png)
 
-这些时候，试试Promise模式吧， 也许你也会觉得很爽。（完）
+这些时候，试试Promise模式吧， 也许你也会觉得很爽：）（完）
