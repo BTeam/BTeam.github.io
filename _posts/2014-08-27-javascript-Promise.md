@@ -8,7 +8,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 ### Javascript引擎的工作机制
 
-![忙碌的Javascript引擎](public/upload/zuma.png)
+![忙碌的Javascript引擎](/public/upload/zuma.png)
 
 这是一幅《祖玛》的游戏截图，想必大家都很熟悉。每天我们打开浏览器看网页时，为我们服务的Javascript（下文简称JS）引擎在浏览器里就扮演图中央这只苦逼青蛙的角色————比青蛙更苦逼的是：JS引擎每次只能处理排在队伍最前面的一个珠子。
 
