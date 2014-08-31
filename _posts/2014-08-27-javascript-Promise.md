@@ -6,7 +6,7 @@ tags: javascript
 description: 浅谈用Promise模式来简化Javascript异步编程
 ---
 
-### Javascript引擎的工作机制
+### **Javascript引擎的工作机制**
 
 ![忙碌的Javascript引擎](/public/upload/zuma.png)
 
