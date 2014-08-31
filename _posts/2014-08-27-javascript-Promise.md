@@ -10,7 +10,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 ![忙碌的Javascript引擎](/public/upload/zuma.png)
 
-这是一幅《祖玛》的游戏截图，想必大家都很熟悉。每天我们打开浏览器看网页时，为我们服务的Javascript（下文简称JS）引擎在浏览器里就扮演图中央这只苦逼青蛙的角色————比青蛙更苦逼的是：JS引擎每次只能处理排在队伍最前面的一个珠子。
+这是一幅《祖玛》的游戏截图，想必大家都很熟悉。每天我们打开浏览器看网页时，为我们服务的Javascript（下文简称JS）引擎在浏览器里就扮演图中央这只苦逼青蛙的角色——比青蛙更苦逼的是：JS引擎每次只能处理排在队伍最前面的一个珠子。
 
 宏观上看，这是一个简单的生产者——消费者模型：青蛙不断的消除（消费）队列中的珠子，而幕后黑手不断地向队列尾部添加（生产）珠子。
 
@@ -40,14 +40,101 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 引用一段工作在其他栈上的网友(win32 C)对使用异步函数作出的评价：
 > 异步调用原理并不复杂，但实际使用时容易出莫名其妙的问题，特别是不同线程共享代码或共享数据时容易出问题，编程时需要时时注意是否存在这样的共享，并通过各种状态标志避免冲突。
 	
-虽说道理都是相通的，但异步函数带来的困扰在Javascript中看起来似乎更为严重。原因如上面所说，JS中使用异步函数的机会比其他语言要高很多————因为它是单线程的，而且一般都要与用户进行各种交互。
+虽说道理都是相通的，但异步函数带来的困扰在Javascript中看起来似乎更为严重。原因如上面所说，JS中使用异步函数的机会比其他语言要高很多——因为它是单线程的，而且一般都要与用户进行各种交互。
 
+当你的代码里有一部分操作是依赖于异步函数的执行结果的，这时候问题就来了，常规的处理方式有两种：
+回调函数
+事件/消息机制
 
+如果代码规模比较小当然OK，但在大规模的业务代码面前，这两种方式都有自己的问题。
+回调函数：
+1.意大利拉面般的超凡阅读体验：
+	asyncA(function (){
+		asyncB(function(){
+			asyncC(function(){
+			})
+		})
+	})
+想象一下当嵌套深度达到5层或者10层时，回调函数体又行数巨多的代码可读性。。。
+考虑下面这种情况：
+	
+2.
+事件/消息机制：
+我现在住的地方有个门禁，每天我早上上班时候都要通过它，流程如下：按下按钮——解除门禁——推门而出。可我发现，“解除门禁”是个异步事件，如果我按完按钮再去推门，门还是推不开的。
+正确的做法是，先注册好事件处理函数，on解除门禁=“推门而出”（其实就是一只手先抵住门），然后再按出门按钮——OK，门开了。
+举这个例子主要想说明使用事件/消息机制必须先注册好处理函数，然后再触发事件/发送消息。大量采用这种方式来处理异步函数的结果是，在你的代码头部有一个冗长的onMessage事件处理模块（消息中心），里面可能有几十个处理不同业务/错误的分支。而相关的业务代码可能在文件的另一处，可能相隔了上千行，这带来了一定可读性的损失。
+还有一个问题是，这个“消息中心”，它与你的业务代码经常会处于不同的闭包中。部分业务代码可访问的变量和函数，对于消息中心来说是不可见的。而如果消息中心想访问它们：要么将它们拿出到更外部的作用域，这就带来了一些封装性的损失；要么在业务代码的作用域中，额外设置一个小的消息中心来响应外部消息。类似这样:
+	window.onmessage = function(event){
+		switch(event.data){
+			//各种不同的case
+			case 'GET_AN_ERROR' :
+				runSomeGlobalFunction(function(){
+					window.postMessage('SHOW_HINT');
+				})
+			...
+		}
+	}
+	(function(){
+		function hint(){
+			console.log("出错啦");
+		}
+		window.postMessage('GET_AN_ERROR');
+		window.onmessage = function(e){
+			if(e.data == 'SHOW_HINT'){
+				hint();
+			}
+		}
+	})();
+完了，这下消息处理代码又从集中在消息中心变成分散到程序各个角落了。。。
 
-### 什么是Promise模式
+这两种方式，当然也各有各的优点,
 
+### Promise模式
 
+关于Promise模式的详细介绍这里就不再赘述，搜索“Promise/A+标准”即可找到详细资料。简单说来可以用一个状态机来描述Promise对象，如下图所示：
+
+![Promise](/public/upload/promise_status.png)
+
+新生成时，Promise对象处于pending状态。它可以迁移至resolved(成功)或者rejected(失败)状态，该迁移能且只能发生一次。
+
+Promise对象拥有一个then(onResolve,onReject)方法，它接受1-2个函数为参数，并返回一个新的Promise对象。参数中的两个函数在Promise对象发生状态迁移时按情况执行（如果调用then方法时已不是pending状态，将直接执行），并能从Promise对象包含的异步函数里接受数据。
+
+注意到因为then方法会返回一个新的Promise对象，我们可以进行类似jQuery的链式调用：
+
+	new Promise(doSomething).then(doAntherThing).then(doOtherThings);
+
+额外的，then方法以一种类似try-catch的模式来执行异步函数。一旦函数执行“出错”，迁移到rejected状态但又没得到及时捕获，该错误将直接导致then中的下一个任务变为rejected状态，直到错误被某个onRejected函数处理。类似错误抛出啊！太酷了有没有！
+完善一下我们的链式调用，这是我最喜欢的一种方式：
+
+	new Promise(doSomething).then(doAntherThing).then(doOtherThings).catch(errorHander);
+
+OK,这下终于不用为嵌套调用异步函数时的错误处理发愁了！
+
+值得一提的是ECMAScript6标准中已经引入了Promise，目前已知在高版本Chrome和火狐下，已经有了原生的Promise对象（虽然好像还有bug，目前可以先使用es6-promise.js来替代，接口基本一致）。
+
+简单的示例代码：
+	
+	new Promise(function(resolve,reject){
+		//doSomething
+	}).then(function(data){
+		return new Promise(function(){
+			//doAnother
+		})
+	}).then(function(data){
+		//不返回Promise对象的话，then仍将返回一个完成状态的Promise对象
+	}).then(...)
+	.catch(...)
 
 ### 用Promise模式来简化Javascript异步编程
 
+月前调研Promise模式时，看过一篇文章写道，作者在自己的JS项目里强制要求所有团队成员都要用Promise方式来处理异步。
 
+在自己实际使用了一阵后，我觉得那位作者参与的应该是NodeJS项目。因为对对所有异步函数（包括一些setTimeout的延迟动画和dom交互事件如onclick等）强制使用Promise是不值得的，
+
+毕竟new Promise时要将业务代码封装到函数里传参，一定程度上也损失了代码简洁性。
+
+个人认为JS编程中适合使用Promise的情况是：当你在纸上画一画程序流程图或者状态迁移图或者其他一些杂七杂八的图，发现有嵌套调用异步函数的情况，且后一次异步函数调用依赖前一次异步调用的结果；或者某个操作要等多个异步调用都结束后才进行，如下图：
+
+![使用promise的情况](/public/upload/promise_case.png)
+
+这些时候，试试Promise吧， 也许你也会觉得很爽。（完）
