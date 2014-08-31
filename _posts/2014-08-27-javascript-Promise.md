@@ -48,13 +48,15 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 如果代码规模比较小当然OK，但在大规模的业务代码面前，这两种方式都有自己的问题。
 回调函数：
-1.意大利拉面般的超凡阅读体验：
-	asyncA(function (){
+1.意大利拉面级的超凡阅读体验：
+
+    asyncA(function (){
 		asyncB(function(){
 			asyncC(function(){
 			})
 		})
 	})
+	
 想象一下当嵌套深度达到5层或者10层时，回调函数体又行数巨多的代码可读性。。。
 考虑下面这种情况：
 	
@@ -103,12 +105,12 @@ Promise对象拥有一个then(onResolve,onReject)方法，它接受1-2个函数�
 
 注意到因为then方法会返回一个新的Promise对象，我们可以进行类似jQuery的链式调用：
 
-	new Promise(doSomething).then(doAntherThing).then(doOtherThings);
+    new Promise(doSomething).then(doAntherThing).then(doOtherThings);
 
 额外的，then方法以一种类似try-catch的模式来执行异步函数。一旦函数执行“出错”，迁移到rejected状态但又没得到及时捕获，该错误将直接导致then中的下一个任务变为rejected状态，直到错误被某个onRejected函数处理。类似错误抛出啊！太酷了有没有！
 完善一下我们的链式调用，这是我最喜欢的一种方式：
 
-	new Promise(doSomething).then(doAntherThing).then(doOtherThings).catch(errorHander);
+    new Promise(doSomething).then(doAntherThing).then(doOtherThings).catch(errorHander);
 
 OK,这下终于不用为嵌套调用异步函数时的错误处理发愁了！
 
@@ -116,7 +118,7 @@ OK,这下终于不用为嵌套调用异步函数时的错误处理发愁了！
 
 简单的示例代码：
 	
-	new Promise(function(resolve,reject){
+    new Promise(function(resolve,reject){
 		//doSomething
 	}).then(function(data){
 		return new Promise(function(){
@@ -135,8 +137,8 @@ OK,这下终于不用为嵌套调用异步函数时的错误处理发愁了！
 
 毕竟new Promise时要将业务代码封装到函数里传参，一定程度上也损失了代码简洁性。
 
-个人认为JS编程中适合使用Promise的情况是：当你在纸上画一画程序流程图或者状态迁移图或者其他一些杂七杂八的图，发现有嵌套调用异步函数的情况，且后一次异步函数调用依赖前一次异步调用的结果；或者某个操作要等多个异步调用都结束后才进行，如下图：
+个人认为JS编程中适合使用Promise的情况是：当你在纸上画一画程序流程图或者状态迁移图或者其他一些杂七杂八的图，发现有多层嵌套调用异步函数的情况，且后一次异步函数调用依赖前一次异步调用的结果；或者某个操作要等多个异步调用都结束后才进行，如下图：
 
 ![使用promise的情况](/public/upload/promise_case.png)
 
-这些时候，试试Promise吧， 也许你也会觉得很爽。（完）
+这些时候，试试Promise模式吧， 也许你也会觉得很爽。（完）
