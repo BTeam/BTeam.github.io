@@ -18,7 +18,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 * * *
 
-### Javascript中的异步函数
+### **Javascript中的异步函数**
 
 继续展开前，我们先来看看异步函数的定义。网上找来一段异步函数与同步函数的定义：
 
