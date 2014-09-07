@@ -4,5 +4,19 @@ title:
 category: 技术
 tags: javascript
 ---
+<style>
+#test {width:100px;height:100px;}	
+	
+</style>
 
+<div id="test"></div>
 
+<script>
+	$(function(){
+		var colors = ['green','black','red','yellow'],
+		i = 0;
+		setInterval(function(){
+			$("#test").css('background-color',colors[(i++)%colors.length]);
+		},1000)
+	})
+</script>
