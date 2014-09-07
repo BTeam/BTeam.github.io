@@ -1,18 +1,85 @@
 ---
 layout: page
-title: 在我心里你的模样
+title: 在我眼中 你的模样
 category: 技术
 tags: javascript
 ---
 <style>
-#test {width:100px;height:100px;background:red;}
-	
+#egg-holder{width:90%;position:relative;}
+.dot {border-radius:50%;position:absolute;background-color:red;}
+/*
+.dot[level="0"] {width:100%;height:100%;}
+.dot[level="1"] {width:50%;height:50%;}
+.dot[level="2"] {width:25%;height:25%;}
+.dot[level="3"] {width:12.5%;height:12.5%;}
+.dot[level="4"] {width:6.25%;height:6.25%;}
+.dot[level="5"] {width:3.125%;height:3.125%;}
+.dot[level="6"] {width:1.5625%;height:1.5625%;}
+*/
+.invisible {visibility:hidden;}
+.hide {display:block;}
 </style>
 
-<div class="egg-container">
-	adf
+<div id="egg-holder">
+	<div class="dot" row="0" col="0" style="left:0;top:0;">
 </div>
 
 <script>
+
 	
+$(function(){
+	var IMAGE_SRC = '/public/upload/avatar_160_160.png';
+	var MAX_DEPTH = 7;
+	var PRECISION = 2;
+	var holder = $('#egg-holder');
+	var sizeArray = (function(){
+		var prec = Math.pow(10,PRECISION+1);
+		var size = 100 * prec;
+		var	result = [100];
+		for (var i = 1; i < MAX_DEPTH; ++i) {
+			size /= 2;
+			result[i] = (size>>0) / prec;
+		}
+		return result;
+	})();
+	function relayout(){
+		holder.height(holder.width());
+	}
+	$(window).resize(relayout)
+	relayout();
+	
+	if($('#dotStyle').length <= 0){
+		(function(){
+			var html = '<style id="dotStyle">';
+			for(var i=0; i<MAX_DEPTH; ++i){
+				html += '.dot[level="'+i+'"] {width:'+sizeArray[i]+'%;height:'+sizeArray[i]+'%;}';
+			}
+			html += '</style>'
+			$('body').append(html);
+		})();
+	}
+	
+	$('.dot').live('mouseenter',function(){
+		var $this = $(this);
+		var level = ($this.attr('level')>>0) + 1;
+		var row, col;
+		if(level <= MAX_DEPTH){
+			row = ($this.attr('row')>>0) * 2;
+			col = ($this.attr('col')>>0) * 2;
+			$this.fadeOut(500,function(){
+				var i, j,top,left; 
+				for(i=0; i<2; ++i){
+					for(j=0; j<2; ++j){
+						left = '-webkit-calc('+ sizeArray[level] +'% * '+(col+j)+')';
+						top = '-webkit-calc('+ sizeArray[level] +'% * '+(row+i)+')';  
+						holder.append('<div class="dot" level="'+level+'" row="'+(row+i)+'" col="'+(col+j)+'" style="left:'+left+';top:'+top+';"></div>');
+					}
+				}
+			});
+			
+
+		}
+	});
+});
+
 </script>
