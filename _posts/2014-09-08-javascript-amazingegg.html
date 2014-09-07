@@ -59,7 +59,7 @@ $(function(){
 		})();
 	}
 	
-	$('.dot').on('mouseenter',function(){
+	$('body').on('mouseenter','.dot',function(){
 		var $this = $(this);
 		var level = ($this.attr('level')>>0) + 1;
 		var row, col;
