@@ -89,7 +89,7 @@ $(function(){
 					for(j=0; j<2; ++j){
 						left = '-webkit-calc('+ sizeArray[level] +'% * '+(col+j)+')';
 						top = '-webkit-calc('+ sizeArray[level] +'% * '+(row+i)+')';
-						colorArray = getImageAverageColor(pic).data;
+						colorArray = new Array.prototype.slice.apply(getImageAverageColor(pic).data);
 						holder.append('<div class="dot" level="'+level+'" row="'+(row+i)+'" col="'+(col+j)+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');"></div>');
 					}
 				}
