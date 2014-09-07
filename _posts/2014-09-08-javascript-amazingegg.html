@@ -21,7 +21,6 @@ canvas {position:fixed;top:100%;left:0;}
 </style>
 
 <div id="egg-holder">
-	<div class="dot" level="0" row="0" col="0" style="left:0;top:0;">
 </div>
 <canvas id="image-holder" class="invisible" ></canvas>
 <canvas id="color-getter" class="invisible" width="1" height="1"></canvas>
@@ -65,13 +64,10 @@ $(function(){
 	//init canvas
 	(function(image){
 		runAfterImageLoaded(image,function(){
-			var holder = $('#image-holder');
-			var hctx = holder[0].getContext('2d');
-			
-			holder.attr({width:image.width, height:image.height});
-			//canvas.attr({width:100, height:100});
-			hctx.drawImage(image,0,0);
-		//	console.log(getImageAverageColor(image));
+			var canvas = $('#image-holder');
+			var ctx = holder[0].getContext('2d');			
+			canvas.attr({width:image.width, height:image.height});
+			ctx.drawImage(image,0,0);
 		});
 	})(pic);
 	
@@ -89,15 +85,19 @@ $(function(){
 					for(j=0; j<2; ++j){
 						left = '-webkit-calc('+ sizeArray[level] +'% * '+(col+j)+')';
 						top = '-webkit-calc('+ sizeArray[level] +'% * '+(row+i)+')';
-						colorArray = Array.prototype.slice.apply(getImageAverageColor(pic).data);
-						holder.append('<div class="dot" level="'+level+'" row="'+(row+i)+'" col="'+(col+j)+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');"></div>');
+						colorArray = getImageAverageColor(pic);
+						addDot(level,row+i,col+j,left,top,colorArray);
 					}
 				}
 			});
 		}
 		return false;
 	});
+	addDot(0,0,0,0,0,getImageAverageColor(pic));
 	
+	function addDot(level,row,col,left,top,colorArray){
+		holder.append('<div class="dot" level="'+level+'" row="'+(row+i)+'" col="'+(col+j)+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');"></div>');		
+	}
 	
 	function getImageAverageColor(image){
 		var getter = $('#color-getter');
@@ -105,7 +105,7 @@ $(function(){
 		image.width = 1;
 		image.height = 1;
 		gctx.drawImage(image,0,0);
-		return gctx.getImageData(0,0,1,1);
+		return Array.prototype.slice.apply(gctx.getImageData(0,0,1,1).data);
 	}
 	
 	
