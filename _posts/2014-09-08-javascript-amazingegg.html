@@ -65,7 +65,7 @@ $(function(){
 	(function(image){
 		runAfterImageLoaded(image,function(){
 			var canvas = $('#image-holder');
-			var ctx = holder[0].getContext('2d');			
+			var ctx = canvas[0].getContext('2d');			
 			canvas.attr({width:image.width, height:image.height});
 			ctx.drawImage(image,0,0);
 		});
