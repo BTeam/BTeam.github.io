@@ -5,18 +5,14 @@ category: 技术
 tags: javascript
 ---
 <style>
-#test {width:100px;height:100px;}	
+#test {width:100px;height:100px;background:red;}	
 	
 </style>
 
-<div id="test"></div>
+<div id="test" class="container">
+	adf
+</div>
 
 <script>
-	$(function(){
-		var colors = ['green','black','red','yellow'],
-		i = 0;
-		setInterval(function(){
-			$("#test").css('background-color',colors[(i++)%colors.length]);
-		},1000)
-	})
+	
 </script>
