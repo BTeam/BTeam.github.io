@@ -25,7 +25,7 @@ canvas {position:fixed;top:0;left:0;}
 	<div class="dot" level="0" row="0" col="0" style="left:0;top:0;">
 </div>
 <canvas id="image-holder" ></canvas>
-<canvas id="color-getter" ></canvas>
+<canvas id="color-getter" width="1" height="1"></canvas>
 <script>
 
 	
@@ -35,6 +35,8 @@ $(function(){
 	var PRECISION = 2;
 	var REDRAW_TIMEOUT = 500;
 	var holder = $('#egg-holder');
+	var pic = new Image;
+	pic.src = IMAGE_SRC
 	var sizeArray = (function(){
 		var prec = Math.pow(10,PRECISION+1);
 		var size = 100 * prec;
@@ -62,17 +64,17 @@ $(function(){
 		})();
 	}
 	//init canvas
-	(function(){
-		var canvas = $('#image-holder');
-		var ctx = canvas[0].getContext('2d');
-		var image = new Image;
-		image.src = IMAGE_SRC;
+	(function(image){
 		runAfterImageLoaded(image,function(){
-			//canvas.attr({width:image.width, height:image.height});
-			canvas.attr({width:100, height:100});
-			ctx.drawImage(image,0,0);
+			var holder = $('#image-holder');
+			var hctx = holder[0].getContext('2d');
+			
+			holder.attr({width:image.width, height:image.height});
+			//canvas.attr({width:100, height:100});
+			hctx.drawImage(image,0,0);
+			console.log(getImageAverageColor(image));
 		});
-	})();
+	})(pic);
 	
 	$('body').on('mouseenter','.dot',function(){
 		var $this = $(this);
@@ -95,13 +97,26 @@ $(function(){
 		}
 		return false;
 	});
+	
+	
+	function getImageAverageColor(image){
+		var getter = $('#color-getter');
+		var gctx = getter[0].getContext('2d');
+		image.width = 1;
+		image.height = 1;
+		gctx.drawImage(image,0,0);
+		return gctx.getImageData(0,0,1,1);
+	}
+	
+	
+	function runAfterImageLoaded(image,task){
+		if(image.complete){
+			task && task();
+		}else{
+			image.onload = task;
+		}
+	}
 });
 
-function runAfterImageLoaded(image,task){
-	if(image.complete){
-		task && task();
-	}else{
-		image.onload = task;
-	}
-}
+
 </script>
