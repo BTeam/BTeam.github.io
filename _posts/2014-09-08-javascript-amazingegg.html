@@ -5,7 +5,8 @@ category: 技术
 tags: javascript
 ---
 <style>
-#egg-holder{width:60%;position:relative;margin:auto;}
+#egg-holder{width:50%;position:relative;margin:auto;}
+canvas {position:fixed;top:0;left:0;}
 .dot {border-radius:50%;position:absolute;background-color:red;}
 /*
 .dot[level="0"] {width:100%;height:100%;}
@@ -23,7 +24,8 @@ tags: javascript
 <div id="egg-holder">
 	<div class="dot" level="0" row="0" col="0" style="left:0;top:0;">
 </div>
-
+<canvas id="image-holder" class="invisible"></canvas>
+<canvas id="color-getter" class="invisible"></canvas>
 <script>
 
 	
@@ -31,6 +33,7 @@ $(function(){
 	var IMAGE_SRC = '/public/upload/avatar_160_160.png';
 	var MAX_DEPTH = 7;
 	var PRECISION = 2;
+	var REDRAW_TIMEOUT = 500;
 	var holder = $('#egg-holder');
 	var sizeArray = (function(){
 		var prec = Math.pow(10,PRECISION+1);
@@ -58,6 +61,17 @@ $(function(){
 			$('body').append(html);
 		})();
 	}
+	//init canvas
+	(function(){
+		var canvas = $('#image-holder');
+		var ctx = canvas[0].getContext('2d');
+		var image = new Image;
+		image.src = IMAGE_SRC;
+		runAfterImageLoaded(image,function(){
+			canvas.attr({width:image.width, height:image.height});
+			ctx.drawImage(image,0,0);
+		});
+	})();
 	
 	$('body').on('mouseenter','.dot',function(){
 		var $this = $(this);
@@ -66,7 +80,7 @@ $(function(){
 		if(level < MAX_DEPTH){
 			row = ($this.attr('row')>>0) * 2;
 			col = ($this.attr('col')>>0) * 2;
-			$this.fadeOut(500,function(){
+			$this.fadeOut(REDRAW_TIMEOUT,function(){
 				var i, j,top,left; 
 				$this.remove();
 				for(i=0; i<2; ++i){
@@ -82,4 +96,11 @@ $(function(){
 	});
 });
 
+function runAfterImageLoaded(image,task){
+	if(image.complete){
+		task && task();
+	}else{
+		image.onload = task;
+	}
+}
 </script>
