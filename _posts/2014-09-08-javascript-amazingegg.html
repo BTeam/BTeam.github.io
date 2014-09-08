@@ -58,6 +58,7 @@ $(function(){
 	}
 	
 	function relayout(){
+		holder = $('#egg-holder');
 		holder.height(holder.width()*pic.height/pic.width);
 	}
 	$(window).resize(relayout)
@@ -105,7 +106,7 @@ $(function(){
 
 	
 	function addDot(level,row,col,left,top,colorArray){
-		console.log(holder);
+		holder = $('#egg-holder');
 		holder.append('<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+(level==0?'182,159,128,255':colorArray.join(','))+');"></div>');
 	}
 	
