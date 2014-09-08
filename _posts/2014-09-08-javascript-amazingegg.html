@@ -7,7 +7,7 @@ tags: javascript
 <style>
 #egg-holder{width:50%;position:relative;margin:auto;}
 canvas {position:fixed;top:100%;left:0;}
-.dot {border-radius:50%;position:absolute;background-color:red;}
+.dot {border-radius:50%;position:absolute;background-color:red;cursor:pointer;text-align:center;}
 /*
 .dot[level="0"] {width:100%;height:100%;}
 .dot[level="1"] {width:50%;height:50%;}
@@ -96,7 +96,7 @@ $(function(){
 	addDot(0,0,0,0,0,getImageAverageColor(pic));
 	
 	function addDot(level,row,col,left,top,colorArray){
-		holder.append('<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');"></div>');
+		holder.append('<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');">'+level?'':'点我'+'</div>');
 	}
 	
 	function getImageAverageColor(image){
