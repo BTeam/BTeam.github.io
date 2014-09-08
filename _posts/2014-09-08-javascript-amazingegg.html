@@ -46,12 +46,6 @@ $(function(){
 		}
 		return result;
 	})();
-	function relayout(){
-		holder.height(holder.width()*pic.height/pic.width);
-	}
-	$(window).resize(relayout)
-	runAfterImageLoaded(pic,relayout)
-	
 	if($('#dotStyle').length <= 0){
 		(function(){
 			var html = '<style id="dotStyle">';
@@ -62,6 +56,42 @@ $(function(){
 			$('body').append(html);
 		})();
 	}
+	
+	function relayout(){
+		holder.height(holder.width()*pic.height/pic.width);
+	}
+	$(window).resize(relayout)
+	runAfterImageLoaded(pic,function(){
+		relayout();
+
+		$('body').on('mouseenter','.dot',function(){
+			var $this = $(this);
+			var level = ($this.attr('level')>>0) + 1;
+			var row, col;
+			if(level < MAX_DEPTH){
+				row = ($this.attr('row')>>0) * 2;
+				col = ($this.attr('col')>>0) * 2;
+				$this.fadeOut(REDRAW_TIMEOUT,function(){
+					var i, j,top,left,colorArray, clipW,clipH;
+					$this.remove();
+					for(i=0; i<2; ++i){
+						for(j=0; j<2; ++j){
+							left = '-webkit-calc('+ sizeArray[level] +'% * '+(col+j)+')';
+							top = '-webkit-calc('+ sizeArray[level] +'% * '+(row+i)+')';
+							clipW = (sizeArray[level] * pic.width /100)>>0;
+							clipH = (sizeArray[level] * pic.height /100)>>0;
+							colorArray = getImageAverageColor(pic,(col+j)*clipW,(row+i)*clipH,clipW,clipH);
+							addDot(level,row+i,col+j,left,top,colorArray);
+						}
+					}
+				});
+			}
+			return false;
+		});
+		addDot(0,0,0,0,0,getImageAverageColor(pic));		
+	});
+	
+
 //	//init canvas
 //	(function(image){
 //		runAfterImageLoaded(image,function(){
@@ -72,31 +102,7 @@ $(function(){
 //		});
 //	})(pic);
 	
-	$('body').on('mouseenter','.dot',function(){
-		var $this = $(this);
-		var level = ($this.attr('level')>>0) + 1;
-		var row, col;
-		if(level < MAX_DEPTH){
-			row = ($this.attr('row')>>0) * 2;
-			col = ($this.attr('col')>>0) * 2;
-			$this.fadeOut(REDRAW_TIMEOUT,function(){
-				var i, j,top,left,colorArray, clipW,clipH;
-				$this.remove();
-				for(i=0; i<2; ++i){
-					for(j=0; j<2; ++j){
-						left = '-webkit-calc('+ sizeArray[level] +'% * '+(col+j)+')';
-						top = '-webkit-calc('+ sizeArray[level] +'% * '+(row+i)+')';
-						clipW = (sizeArray[level] * pic.width /100)>>0;
-						clipH = (sizeArray[level] * pic.height /100)>>0;
-						colorArray = getImageAverageColor(pic,(col+j)*clipW,(row+i)*clipH,clipW,clipH);
-						addDot(level,row+i,col+j,left,top,colorArray);
-					}
-				}
-			});
-		}
-		return false;
-	});
-	addDot(0,0,0,0,0,getImageAverageColor(pic));
+
 	
 	function addDot(level,row,col,left,top,colorArray){
 		console.log(holder);
