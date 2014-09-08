@@ -5,9 +5,8 @@ category: 技术
 tags: javascript
 ---
 <style>
-#egg-holder{width:50%;position:relative;margin:auto;}
-canvas {position:fixed;top:0;left:0;}
-#color-getter {bottom:0;top:initial;}
+#egg-holder{width:50%;position:relative;margin:20px auto 0;}
+canvas {position:fixed;top:100%;left:0;}
 .dot {border-radius:50%;position:absolute;background-color:red;cursor:pointer;text-align:center;}
 /*
 .dot[level="0"] {width:100%;height:100%;}
@@ -27,9 +26,8 @@ canvas {position:fixed;top:0;left:0;}
 <canvas id="color-getter" class="invisible" width="1" height="1"></canvas>
 <script>
 
-	
 $(function(){
-	var IMAGE_SRC = '/public/upload/avatar_160_160.png';
+	var IMAGE_SRC = '/public/upload/test.jpg';
 	var MAX_DEPTH = 7;
 	var PRECISION = 2;
 	var REDRAW_TIMEOUT = 500;
@@ -37,7 +35,7 @@ $(function(){
 	var getter = $('#color-getter');
 	var gctx = getter[0].getContext('2d');
 	var pic = new Image;
-	pic.src = IMAGE_SRC
+	pic.src = IMAGE_SRC;
 	var sizeArray = (function(){
 		var prec = Math.pow(10,PRECISION+1);
 		var size = 100 * prec;
@@ -49,10 +47,10 @@ $(function(){
 		return result;
 	})();
 	function relayout(){
-		holder.height(holder.width());
+		holder.height(holder.width()*pic.height/pic.width);
 	}
 	$(window).resize(relayout)
-	relayout();
+	runAfterImageLoaded(pic,relayout)
 	
 	if($('#dotStyle').length <= 0){
 		(function(){
@@ -101,7 +99,7 @@ $(function(){
 	addDot(0,0,0,0,0,getImageAverageColor(pic));
 	
 	function addDot(level,row,col,left,top,colorArray){
-		holder.append('<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');">'+(level?'':'点我')+'</div>');
+		holder.append('<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');"></div>');
 	}
 	
 	
