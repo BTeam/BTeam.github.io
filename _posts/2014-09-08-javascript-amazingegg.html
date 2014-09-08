@@ -73,7 +73,7 @@ $(function(){
 				row = ($this.attr('row')>>0) * 2;
 				col = ($this.attr('col')>>0) * 2;
 				$this.fadeOut(REDRAW_TIMEOUT,function(){
-					var i, j,top,left,colorArray, clipW,clipH;
+					var i, j,top,left,colorArray, clipW,clipH,buffer = [];
 					$this.remove();
 					for(i=0; i<2; ++i){
 						for(j=0; j<2; ++j){
@@ -82,9 +82,10 @@ $(function(){
 							clipW = (sizeArray[level] * pic.width /100)>>0;
 							clipH = (sizeArray[level] * pic.height /100)>>0;
 							colorArray = getImageAverageColor(pic,(col+j)*clipW,(row+i)*clipH,clipW,clipH);
-							addDot(level,row+i,col+j,left,top,colorArray);
+							buffer[buffer.length] = [level,row+i,col+j,left,top,colorArray];
 						}
 					}
+					addDot(buffer);
 				});
 			}
 			return false;
@@ -107,7 +108,22 @@ $(function(){
 	
 	function addDot(level,row,col,left,top,colorArray){
 		holder = $('#egg-holder');
-		holder.append('<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+(level==0?'182,159,128,255':colorArray.join(','))+');"></div>');
+		var html = '';
+		if($.isArray(level)){
+			var datas = level;
+			for(var data in datas){
+				level = data[0];
+				row = data[1];
+				col = data[2];
+				left = data[3];
+				top = data[4];
+				colorArray = data[5];
+				html += '<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+(level==0?'182,159,128,255':colorArray.join(','))+');"></div>';
+			}		
+		}else{
+			html = '<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+(level==0?'182,159,128,255':colorArray.join(','))+');"></div>';
+		}
+		holder.append(html);
 	}
 	
 	
