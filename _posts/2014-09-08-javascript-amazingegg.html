@@ -110,8 +110,9 @@ $(function(){
 		holder = $('#egg-holder');
 		var html = '';
 		if($.isArray(level)){
-			var datas = level;
-			for(var data in datas){
+			var datas = level, data,i;
+			for(i in datas){
+				data = datas[i];
 				level = data[0];
 				row = data[1];
 				col = data[2];
