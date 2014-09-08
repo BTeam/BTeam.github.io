@@ -96,7 +96,7 @@ $(function(){
 	addDot(0,0,0,0,0,getImageAverageColor(pic));
 	
 	function addDot(level,row,col,left,top,colorArray){
-		holder.append('<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');">'+level?'':'点我'+'</div>');
+		holder.append('<div class="dot" level="'+level+'" row="'+row+'" col="'+col+'" style="left:'+left+';top:'+top+';background-color:rgba('+colorArray.join(',')+');">'+(level?'':'点我')+'</div>');
 	}
 	
 	function getImageAverageColor(image){
