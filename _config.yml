@@ -1,14 +1,15 @@
-baseurl: /blog
 permalink: /:year/:month/:day/:title.html
 paginate: 10
 markdown: redcarpet
+encoding: "utf-8"
+
 
 # 作者信息
 author: 
   name: 王舜
   email: seifer.wang@gmail.com
   weibo: http://weibo.com/wangshun1984
-  github: http://github.com/seiferwang
+  github: http://github.com/bteam
 
 # 站点信息
 title: 王舜的博客 
