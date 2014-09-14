@@ -45,3 +45,10 @@ locals:
   newest: 最新文章
   archive: 归档
   content: 目录
+
+kramdown:
+   auto_ids:true,
+   footnote_nr:1
+   entity_output:as_char
+   toc_levels:1..6
+   use_coderay:false
