@@ -9,7 +9,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 * auto-gen TOC:
 {:toc}
 
-### **Javascript引擎的工作机制**(#t1)
+## Javascript引擎的工作机制
 
 ![忙碌的Javascript引擎](/public/upload/zuma.png)
 
@@ -21,7 +21,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 * * *
 
-### **Javascript中的异步函数**(#t2)
+## Javascript中的异步函数
 
 继续展开前，我们先来看看异步函数的定义。网上找来一段异步函数与同步函数的定义：
 
@@ -45,7 +45,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 * * *
 
-### **异步函数所带来的烦恼**
+## 异步函数所带来的烦恼
 
 实际上，“烦恼”这个说法是有违公平的。异步函数让像Javascript这样工作在单线程下的语言，能够更好地利用起有限的时间片。因此有一些优化规范建议将大段的同步函数，切成多个小片段，每个小片段用setTimeout(...,0)调用之。
 	
@@ -141,7 +141,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 * * *
 
-### **Promise模式**
+## Promise模式
 
 关于Promise模式的详细介绍这里就不再赘述，搜索“Promise/A+标准”即可找到详细资料。简单说来可以用一个状态机来描述Promise对象，如下图所示：
 
@@ -185,7 +185,7 @@ OK,这下终于不用为嵌套调用异步函数时的错误处理发愁了！
 
 * * *
 
-### **用Promise模式来简化Javascript异步编程**
+## 用Promise模式来简化Javascript异步编程
 
 月前调研Promise模式时，看过一篇文章写道，作者在自己的JS项目里强制要求所有团队成员都要用Promise方式来处理异步。
 
