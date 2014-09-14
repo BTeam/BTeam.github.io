@@ -9,7 +9,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 * auto-gen TOC:
 {:toc}
 
-### **Javascript引擎的工作机制**
+### **Javascript引擎的工作机制**(#t1)
 
 ![忙碌的Javascript引擎](/public/upload/zuma.png)
 
@@ -21,7 +21,7 @@ description: 浅谈用Promise模式来简化Javascript异步编程
 
 * * *
 
-### **Javascript中的异步函数**
+### **Javascript中的异步函数**(#t2)
 
 继续展开前，我们先来看看异步函数的定义。网上找来一段异步函数与同步函数的定义：
 
