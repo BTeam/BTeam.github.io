@@ -29,7 +29,7 @@
               <div class="list-group">
                 <h2 class="center">{{ category[0] }}</h2>
                 {% for post in category[1] %}
-                  <a href="{{ post.url }}" class="list-group-item pjaxlink">{{post.title}}</a>
+                  <a no-cache-href="{{ post.url }}" class="list-group-item pjaxlink no-cache-link" href="javascript:;">{{post.title}}</a>
                 {% endfor %}
               </div>
             </div>
@@ -47,7 +47,7 @@
                   </div>
                   <div id="{{ tag[0] }}" class="panel-collapse collapse">
                     {% for post in tag[1] %}
-                      <a  href='{{ post.url }}' class="list-group-item pjaxlink">
+                      <a  no-cache-href='{{ post.url }}' class="list-group-item pjaxlink no-cache-link" href="javascript:;">
                         {{post.title}}
                       </a>
                     {% endfor %}

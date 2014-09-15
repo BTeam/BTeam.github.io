@@ -41,7 +41,7 @@ function content_effects() {
   //remove the asidebar
   $('.row-offcanvas').removeClass('active');
   if ($("#nav").length > 0) {
-    $("#content > h2,#content > h3,#content > h4,#content > h5,#content > h6").each(function(i) {
+	$("#content > h2,#content > h3,#content > h4,#content > h5,#content > h6").each(function(i) {
       var current = $(this);
       current.attr("id", "title" + i);
       tag = current.prop('tagName').substr(-1);
@@ -91,6 +91,16 @@ $(document).ready(function() {
       dataType: "script",
       cache: true
     });
-  });
+  })
   content_effects();
+
+//页面跳转（无缓存）
+	$('body').on('click','.no-cache-link',function(){
+		var $this = $(this);
+		var href = $this.attr('no-cache-href');
+		if(href){
+			href += '?_='+new Date().getTime();
+		}
+		window.location.href = href;
+	});
 });

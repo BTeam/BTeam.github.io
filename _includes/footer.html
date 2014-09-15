@@ -8,5 +8,43 @@
 <script src="/public/js/prettify/prettify.js"></script>
 <script src="/public/js/base.js"></script>
 <script>
-    $('a[href="#{{ site.active }}"]').tab('show');
+    $('a[href="#{{ site.active }}"]').tab('show');	
+
+$(function(){
+	secLoad();
+});
+
+function secLoad(isTest){
+	if(isTest){
+		$('#sec-content').removeClass('invisible')
+	}else{
+		var sec = $('#sec-content'); 
+		if(sec.length>0 && sec.hasClass('invisible')){
+			var parent = sec.parent();
+			sec = sec.detach();
+			var form = $('<div id="sec-check" class="col-md-12 aside3-content"><form>\
+							  <fieldset>\
+							    <label>测试：</label>\
+							    <input type="password" placeholder="在此输入文字…">\
+							    <button type="submit" class="btn">确认</button>\
+							    <span class="has-error text-error help-block invisible">再想想？</span>\
+							  </fieldset>\
+							</form></div>').appendTo(parent);
+			var btn = form.find('button');
+			var hint = form.find('.help-block');
+			btn.click(function(e){
+				if($.md5($.trim(form.find('input').val())) == '192298a586875dd11f885b0313c968d5'){
+					form.remove();
+					sec.removeClass('invisible').appendTo(parent);
+				}else{
+					console.log("error")
+					hint.removeClass('invisible');
+				}
+				e.preventDefault();
+			})
+		}	
+	}
+
+}
+
 </script>
