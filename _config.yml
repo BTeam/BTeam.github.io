@@ -1,20 +1,23 @@
 permalink: /:year/:month/:day/:title.html
 paginate: 10
-markdown: kramdown
+#markdown: kramdown
+markdown: redcarpet
 encoding: "utf-8"
+redcarpet:
+  extensions: ["fenced_code_blocks"]
 
 
 # 作者信息
 author: 
-  name: 王舜
+  name: 傻福大熊猫
   email: seifer.wang@gmail.com
   weibo: http://weibo.com/wangshun1984
   github: http://github.com/bteam
 
 # 站点信息
-title: 王舜的博客 
-description: 王舜的博客
-url: http://seiferwang.github.io
+title: 躬耕
+description: 白色的未来有无尽的黑夜在等待
+url: http://blog.sunnygo.top
 rss_url: /pages/atom.xml
 
 # gavatar头像及Favicon
@@ -35,8 +38,7 @@ active: 技术
 
 # 首页除了最新文章外显示分类
 cates: 
-  - Python
-  - OpenStack
+  - 技术
 
 # 中文本地化
 locals:
