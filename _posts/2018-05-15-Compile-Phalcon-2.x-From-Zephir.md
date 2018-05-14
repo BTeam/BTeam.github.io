@@ -23,7 +23,7 @@ description: customize your own phalcon - compile phalcon 2.x version from the z
 
 综上看来，修改并重新编译Phalcon源代码才是最好的出路。而且有能力修改Phalcon源码后，我们还可以在底层定制适合我们业务的功能，提高程序处理效率。
 
-### 具体操作步骤
+### 具体操作
 
 从[Github](https://github.com/phalcon/cphalcon)上clone一份Phalcon源码，检出想要的分支代码。
 
@@ -31,11 +31,12 @@ description: customize your own phalcon - compile phalcon 2.x version from the z
 
 ![](/public/img/phalcon_dir.png)
 
-Phalcon目前的源码是用一种中间件语言语言zep来开发的，zep源码存在根目录/phalcon下，后缀是.zep的文件就是。/ext/phalcon目录则存放被zephir编译后的c文件。
+Phalcon目前的源码是用一种中间件语言语言zephir来开发的，zephir源码存在根目录/phalcon下，后缀.zep的文件就是。Phalcon完整的编译机制应该是从zep代码编译成c代码，再从c代码编译成php扩展。/ext/phalcon目录则存放被zephir编译后的c文件。
 
 按官网教程，下载项目后直接执行/build下的install脚本来安装。然而经试验我们修改zep源码后install是无法生效的，猜测install的逻辑应该是从/ext/phalcon下的二进制直接编译成扩展。
 
-### 正确的步骤
+### 完整的编译步骤
+
 0. 参考[此贴](https://forum.phalconphp.com/discussion/17091/recompiling-phalcon-from-updated-zep-files)
 
 1. 需要安装的依赖清单：
@@ -49,9 +50,11 @@ Phalcon目前的源码是用一种中间件语言语言zep来开发的，zep源�
 
     安装
 
+    ```bash
     git clone https://github.com/phalcon/php-zephir-parser
     cd php-zephir-parser
     sudo ./install
+    ```
 
     将phalcon_parser.so这个扩展加入php.ini
 
