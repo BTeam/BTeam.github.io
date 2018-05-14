@@ -10,7 +10,7 @@ description: customize your own phalcon - compile phalcon 2.x version from the z
 
 目前公司php服务层大多数项目基本上都用的Phalcon 2.0.13版本。从刚开始用就遇到一些框架固有的缺陷，但因为Phalcon是以php扩展形式安装的框架，感觉修改比较麻烦，就一直没管，而是业务层面绕过框架缺陷来规避问题。
 
-这次遇到一个问题，Phalcon自有的Redis缓存组件，会强制存一份key的副本到_PHCR集合里，而这个集合是没有TTL的，得不到释放（更深入的原因本文不再赘述）。想解决这个问题，在网上调研后，总结了几个可能的解决方案：
+这次遇到一个问题，Phalcon自有的Redis缓存组件，会强制存一份key的副本到_PHCR集合里，而这个集合是没有TTL的，得不到释放（深入的原因本文不再赘述），导致使用一段时间后被这些无用信息塞满了内存。想解决这个问题，在网上调研后，总结了几个可能的解决方案：
 
 1. 定时脚本清除Redis中_PHCR集合内元素：
     * 对每个Redis应用都要设置这个维护脚本，复杂度 = Redis服务器数 * namespace数(默认是_PHCR但实际可以自定义)。
