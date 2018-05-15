@@ -33,7 +33,7 @@ description: customize your own phalcon - compile phalcon 2.x version from the z
 
 Phalcon目前的源码是用一种中间件语言语言zephir来开发的，zephir源码存在根目录/phalcon下，后缀.zep的文件就是。Phalcon完整的编译机制应该是从zep代码编译成c代码，再从c代码编译成php扩展。/ext/phalcon目录则存放被zephir编译后的c文件。
 
-按官网教程，下载项目后直接执行/build下的install脚本来安装。然而经试验我们修改zep源码后install是无法生效的，猜测install的逻辑应该是从/ext/phalcon下的二进制直接编译成扩展。
+按官网教程，下载项目后直接执行/build下的install脚本来安装。然而经试验我们修改zep源码后install是无法生效的，猜测install的逻辑应该是从/ext/phalcon下的C代码直接编译成扩展。
 
 ### 完整的编译步骤
 
